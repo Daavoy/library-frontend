@@ -1,34 +1,46 @@
 .modal-overlay {
-    position: fixed; /* Use fixed positioning to cover the entire viewport */
+    position: fixed; 
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0; /* Make it span all edges of the viewport */
+    bottom: 0; 
     background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center; 
     align-items: center; 
     z-index: 1000;
+    font-size: 1em;
+    padding: 1rem; /* Ensures modal doesn't touch the viewport edge */
+    box-sizing: border-box;
 }
 
 .modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    background-color: white;
     border-radius: 10px;
     border: 1px solid black;
     box-shadow: none;
-    background-color: white;
-    padding: 20px
+    padding: 20px;
+    max-width: 600px;
+    max-height: 90vh;         
+    overflow-y: auto;        
+    box-sizing: border-box;
 }
-.form-group {
+
+.modal-header {
     display: flex;
     justify-content: space-between;
-    gap: 2vw;
-    padding: 3px 0px 3px 0px;
-
+    align-items: center;
 }
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5em;
+}
+.modal-header h2 {
+    margin: 0;
+}
+
 .modal-actions {
     display: flex;
     gap: 10px;
@@ -38,38 +50,101 @@
     width: 120px;
     padding: 8px 15px; 
     border-radius: 5px;
-    border: 1px solid #ccc; 
+    border: 0.5px solid #ccc; 
     cursor: pointer;
     transition: background-color 0.2s ease;
+    background-color: white;
+}
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 3px 0px 3px 0px;
 }
 .form-group input {
    overflow: hidden;
    white-space: nowrap;
    text-overflow: ellipsis;
-   border-radius: 3px;
+   border-radius: 5px;
    padding: 5px;
-   border: 1px solid #ccc;     
+   border: 1px solid #ccc;
+   flex: 1 1 120px;
+   min-width: 0;
+}
+.form-group label{
+    width: 120px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex-shrink: 0;
+    min-width: fit-content;
+    position: relative;
+    z-index: 0;
 }
 .form-group input[type="file"] {
     display: none;
 }
 .custom-file-upload{
     display: flex;
+    justify-content: center;
     cursor: pointer;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25em;
+    align-items: center;
+    background-color: black;
+    color: white;
 }
 .close-button {
     display: flex;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    padding: 2.5px;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.75rem;
     align-items: center;
+    border-radius: 25%;
+    border: 1px solid #ccc;
+    color:rgb(0, 0, 0);
+    font-size: 1em;
+    cursor: pointer;
 }
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  z-index: 1;
+}
+
+.tooltip-wrapper .tooltip-text {
+  position: absolute;
+
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 10000; 
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none; 
+}
+
+.tooltip-wrapper:hover .tooltip-text,
+.tooltip-wrapper:focus-within .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+@media screen and (min-width: 600px) {
+    
 }

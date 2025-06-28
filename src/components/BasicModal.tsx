@@ -1,8 +1,9 @@
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Book } from "../models/Book";
 import { FieldConfig } from "../types/fieldConfig";
-
+import { Tooltip } from "./Tooltip";
 
 interface ModalProps {
     isOpen: boolean;
@@ -78,7 +79,7 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
                 console.log("Form data submitted successfully:", formData);
                 setFormData(initialFormState);
                 setErrors({});
-                onClose(); // Close the modal
+                onClose();
             } catch (error) {
                 console.error("Error submitting form:", error);
             }
@@ -113,9 +114,16 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
                     {fields.map((field) => (
                         <div className="form-group" key={field.name}>
                             <label htmlFor={field.name} className={field.type === "file" ? "custom-file-upload" : ""}>
-                                {field.label}
-                                {field.required && <span className="required-star">*</span>}
+                                <span>
+                                    {field.label}
+                                    {field.required && <span className="required-star">*</span>}
+                                </span>
                             </label>
+                            {field.helperText && (
+                                <Tooltip tooltipText={field.helperText}>
+                                    <InfoOutlinedIcon className="tooltip-icon" fontSize='small' />
+                                </Tooltip>
+                            )}
                             <input
                                 id={field.name}
                                 type={field.type}
@@ -140,7 +148,7 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
                 </form>
 
             </div>
-        </div>,
+        </div >,
         document.body
     );
 }
