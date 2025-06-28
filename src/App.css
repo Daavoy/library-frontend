@@ -1,0 +1,75 @@
+.modal-overlay {
+    position: fixed; /* Use fixed positioning to cover the entire viewport */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Make it span all edges of the viewport */
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    z-index: 1000;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: none;
+    background-color: white;
+    padding: 20px
+}
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 2vw;
+    padding: 3px 0px 3px 0px;
+
+}
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-actions button {
+    width: 120px;
+    padding: 8px 15px; 
+    border-radius: 5px;
+    border: 1px solid #ccc; 
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.form-group input {
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   border-radius: 3px;
+   padding: 5px;
+   border: 1px solid #ccc;     
+}
+.form-group input[type="file"] {
+    display: none;
+}
+.custom-file-upload{
+    display: flex;
+    cursor: pointer;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+.close-button {
+    display: flex;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 2.5px;
+    align-items: center;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
