@@ -15,7 +15,7 @@ export const BookProvider = ({ children }) => {
         await refetch();
     }, [refetch]);
 
-    const { mutate: createBookMutate } = useMutation<null, Omit<Book, "id">>(
+    const { mutate: createBookMutate } = useMutation<null, FormData>(
         API_BASE,
         { method: HTTPMethod.POST }
     );
@@ -31,8 +31,20 @@ export const BookProvider = ({ children }) => {
     );
 
     const createBook = useCallback(
-        async (book: Omit<Book, "id">) => {
-            await createBookMutate(book);
+        async (book: Omit<Book, "id"> & { thumbnail?: File }) => {
+            const formData = new FormData();
+
+            Object.entries(book).forEach(([key, value]) => {
+                if (value !== undefined && value !== null) {
+                    if (value instanceof File) {
+                        formData.append(key, value);
+                    } else {
+                        formData.append(key, String(value));
+                    }
+                }
+            });
+
+            await createBookMutate(formData);
             await fetchBooks();
         },
         [createBookMutate, fetchBooks]

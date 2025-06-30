@@ -29,7 +29,7 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
             setErrors({});
         }
     }, [initialFormState, isOpen]);
-    const handleChange = (name: string, value: string) => {
+    const handleChange = (name: string, value: string | File | undefined) => {
         setFormData((prev) => ({ ...prev, [name]: value }));
         if (errors[name]) {
             setErrors((prev) => {
@@ -75,7 +75,7 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
 
         if (validate()) {
             try {
-                await handleSubmit(formData as Partial<Book>);
+                await handleSubmit(formData as Partial<Book> & { thumbnail?: File });
                 console.log("Form data submitted successfully:", formData);
                 setFormData(initialFormState);
                 setErrors({});
@@ -113,23 +113,31 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
                 <form onSubmit={onSave}>
                     {fields.map((field) => (
                         <div className="form-group" key={field.name}>
-                            <label htmlFor={field.name} className={field.type === "file" ? "custom-file-upload" : ""}>
-                                <span>
-                                    {field.label}
-                                    {field.required && <span className="required-star">*</span>}
-                                </span>
-                            </label>
-                            {field.helperText && (
-                                <Tooltip tooltipText={field.helperText}>
-                                    <InfoOutlinedIcon className="tooltip-icon" fontSize='small' />
-                                </Tooltip>
-                            )}
+                            <div className='label-wrapper'>
+                                <label htmlFor={field.name} className={field.type === "file" ? "custom-file-upload" : ""}>
+                                    <span>
+                                        {field.label}
+                                        {field.required && <span className="required-star">*</span>}
+                                    </span>
+                                </label>
+                                {field.helperText && (
+                                    <Tooltip tooltipText={field.helperText}>
+                                        <InfoOutlinedIcon className="tooltip-icon" fontSize='small' />
+                                    </Tooltip>
+                                )}
+                            </div>
                             <input
                                 id={field.name}
                                 type={field.type}
                                 name={field.name}
-                                value={formData[field.name] as string}
-                                onChange={(e) => handleChange(field.name, e.target.value)}
+                                {...(field.type !== "file" && {
+                                    value: formData[field.name] as string,
+                                })}
+                                onChange={(e) => {
+                                    const isFile = field.type === "file";
+                                    const value = isFile ? e.target.files?.[0] : e.target.value;
+                                    handleChange(field.name, value);
+                                }}
                                 placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`}
                                 required={field.required}
                                 autoFocus={field.autoFocus}

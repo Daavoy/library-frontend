@@ -37,7 +37,7 @@ export function CreateBookModal({ isOpen, onClose, handleSubmit }: IProps) {
         {
             name: "publicationYear",
             label: "Publication Year",
-            type: "number",
+            type: "date",
             defaultValue: new Date().getFullYear(),
             placeholder: "",
             fullWidth: false,

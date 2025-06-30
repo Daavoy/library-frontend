@@ -13,7 +13,7 @@ export interface BaseField {
 }
 
 export interface TextFieldConfig extends BaseField {
-    type: "text" | "email" | "password" | "number" | "url" | "file";
+    type: "text" | "email" | "password" | "number" | "url" | "file" | "date";
 
 }
 
