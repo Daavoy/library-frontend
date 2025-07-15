@@ -5,7 +5,6 @@ import { Book } from "../models/Book";
 import { BooksContext } from "./BooksContext";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL + "/books";
-console.log("API: ", API_BASE)
 export const BookProvider = ({ children }) => {
     const fetchOpts = useMemo(() => ({ method: HTTPMethod.GET }), []);
 
@@ -33,17 +32,17 @@ export const BookProvider = ({ children }) => {
     const createBook = useCallback(
         async (book: Omit<Book, "id"> & { thumbnail?: File }) => {
             const formData = new FormData();
-
             Object.entries(book).forEach(([key, value]) => {
-                if (value !== undefined && value !== null) {
+                if (value !== undefined && value !== null && value !== '') {
                     if (value instanceof File) {
                         formData.append(key, value);
                     } else {
+                        console.log("KEY", key, " VALUE ", value)
                         formData.append(key, String(value));
                     }
                 }
             });
-
+            console.log("FORM DATA:", formData.values)
             await createBookMutate(formData);
             await fetchBooks();
         },

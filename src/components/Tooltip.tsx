@@ -6,8 +6,6 @@ type TooltipProps = {
 };
 
 export function Tooltip({ tooltipText, children }: TooltipProps): JSX.Element {
-
-    console.log("TTP ", tooltipText)
     if (!tooltipText) {
         return <>{children}</>;
     }

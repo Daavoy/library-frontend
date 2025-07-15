@@ -29,6 +29,7 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
             setErrors({});
         }
     }, [initialFormState, isOpen]);
+
     const handleChange = (name: string, value: string | File | undefined) => {
         setFormData((prev) => ({ ...prev, [name]: value }));
         if (errors[name]) {
@@ -75,9 +76,8 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
 
         if (validate()) {
             try {
-                await handleSubmit(formData as Partial<Book> & { thumbnail?: File });
-                console.log("Form data submitted successfully:", formData);
                 setFormData(initialFormState);
+                await handleSubmit(formData as Partial<Book> & { thumbnail?: File });
                 setErrors({});
                 onClose();
             } catch (error) {
@@ -89,7 +89,6 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
     };
 
     const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        console.log("event", event.target, ' cr', event.currentTarget)
         if (event.target === event.currentTarget) {
             onClose();
         }

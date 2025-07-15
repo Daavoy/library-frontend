@@ -32,11 +32,10 @@ export default function useMutation<TResponse, TBody = Partial<TResponse>>(
             try {
                 const url = baseEndpoint + (dynamicEndpoint ?? '');
                 const isFormData = body instanceof FormData;
-
                 const fetchOptions: RequestInit = {
                     method,
                     headers: isFormData
-                        ? headers // Don't override headers if using FormData
+                        ? headers
                         : {
                             "Content-Type": "application/json",
                             ...headers,
@@ -47,10 +46,7 @@ export default function useMutation<TResponse, TBody = Partial<TResponse>>(
                             : JSON.stringify(body)
                         : undefined,
                 };
-                console.log("Sending request to:", url);
-                console.log("Method:", method);
-                console.log("Headers:", fetchOptions.headers);
-                console.log("Body is FormData:", body instanceof FormData);
+                console.log("BODY: ", body)
                 const res = await fetch(url, fetchOptions);
 
                 if (!res.ok) throw new Error(res.statusText);
