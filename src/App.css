@@ -152,6 +152,35 @@
   visibility: visible;
   opacity: 1;
 }
-@media screen and (min-width: 600px) {
-    
+
+.book-list-wrapper{
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+}
+
+.book-thumbnail-img {
+   height: 30vw;
+   width: 30vw;
+}
+.book-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+.book-wrapper h2{
+    padding: 0;
+    margin: 0;
+}
+.book-details {
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media screen and (max-width: 600px) {
+    .book-list-wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+    }
 }
