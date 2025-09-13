@@ -1,12 +1,12 @@
-import BookList from "./components/BookList"
-import { BookProvider } from "./contexts/BooksProvider"
+import LoginPage from "./components/LoginPage"
 
 function App() {
 
   return (
-    <BookProvider >
-      <BookList />
-    </BookProvider>
+    /*  <BookProvider >
+       <BookList />
+     </BookProvider> */
+    <LoginPage />
   )
 }
 

@@ -37,12 +37,10 @@ export const BookProvider = ({ children }) => {
                     if (value instanceof File) {
                         formData.append(key, value);
                     } else {
-                        console.log("KEY", key, " VALUE ", value)
                         formData.append(key, String(value));
                     }
                 }
             });
-            console.log("FORM DATA:", formData.values)
             await createBookMutate(formData);
             await fetchBooks();
         },

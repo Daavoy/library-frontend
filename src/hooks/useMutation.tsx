@@ -46,7 +46,6 @@ export default function useMutation<TResponse, TBody = Partial<TResponse>>(
                             : JSON.stringify(body)
                         : undefined,
                 };
-                console.log("BODY: ", body)
                 const res = await fetch(url, fetchOptions);
 
                 if (!res.ok) throw new Error(res.statusText);
