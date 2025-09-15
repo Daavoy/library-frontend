@@ -1,5 +1,6 @@
 import { FormEvent, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { login, LoginPayload } from "../auth/AuthUtil";
 
 
 interface ModalProps {
@@ -8,7 +9,8 @@ interface ModalProps {
     children?: ReactNode;
     title?: string;
 }
-const API_URL = import.meta.env.VITE_API_BASE_URL + "/auth/register";
+
+
 export default function LoginModal({ isOpen, onClose, title }: ModalProps) {
     const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target === event.currentTarget) {
@@ -17,18 +19,12 @@ export default function LoginModal({ isOpen, onClose, title }: ModalProps) {
     };
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const dataObject = Object.fromEntries(formData);
         const form = event.currentTarget;
-        console.log("Form data: ", formData, " dataobje", dataObject)
-
-        await fetch(API_URL, {
-            method: "POST",
-            body: JSON.stringify(dataObject),
-            headers: {
-                "Content-Type": "application/json"
-            },
-        })
+        const formData = new FormData(form);
+        //TODO FIX THIS STUPID SHIT
+        const dataObject = Object.fromEntries(formData) as unknown as LoginPayload;
+        const userData = await login(dataObject);
+        console.log("USERDATA: ", userData)
         form.reset();
         onClose();
     }

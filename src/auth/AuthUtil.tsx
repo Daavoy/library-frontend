@@ -1,17 +1,17 @@
+import axiosConfig from "../axios";
 
+export interface LoginPayload {
+    email: string,
+    password: string,
+}
 
-const API_URL = import.meta.env.VITE_API_BASE_URL + "/auth/";
-export const login = async (formData: FormData) => {
-    const response = await fetch(API_URL + "/register", {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-            "Content-Type": "application/json"
-        },
+export const login = async (formData: LoginPayload) => {
+    console.log("FORM DATA: ", formData)
+    axiosConfig.post("auth/login", formData).then(response => {
+        const { data } = response;
+        console.log("response", response, "data", data)
+        localStorage.setItem("token", data.token)
+    }).catch(error => {
+        console.error(error);
     })
-    if (!response.ok) {
-        throw new Error("Login failed");
-    }
-    const data = await response.json()
-    localStorage.setItem("token", data.token)
 }

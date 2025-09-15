@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LoginModal from "./LoginModal.";
+import LoginModal from "./LoginModal";
 
 
 export default function LoginPage() {
