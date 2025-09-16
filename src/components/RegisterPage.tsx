@@ -10,7 +10,7 @@ export default function RegisterPage() {
         setIsRegisterModalOpen(false);
     }
     return <div className="register-wrapper">
-        <RegisterLoginModal isOpen={isRegisterModalOpen} onClose={handleOnClose} title="Register" />
+        {isRegisterModalOpen && <RegisterLoginModal isOpen={isRegisterModalOpen} onClose={handleOnClose} title="Register" />}
         <button onClick={() => setIsRegisterModalOpen(true)} className="register-button">Register</button>
     </div>
 }

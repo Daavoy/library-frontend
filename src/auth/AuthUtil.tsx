@@ -1,4 +1,4 @@
-import axiosConfig from "../axios";
+import axiosInstance from "../axios";
 
 export interface AuthPayload {
     email: string,
@@ -7,17 +7,17 @@ export interface AuthPayload {
 
 export const login = async (formData: AuthPayload) => {
     console.log("FORM DATA: ", formData)
-    axiosConfig.post("auth/login", formData).then(response => {
+    axiosInstance.post("auth/login", formData).then(response => {
         const { data } = response;
         console.log("response", response, "data", data)
-        localStorage.setItem("token", data.token)
+        localStorage.setItem("accessToken", data.token)
     }).catch(error => {
         console.error(error);
     })
 }
 
 export const register = async (formData: AuthPayload) => {
-    axiosConfig.post("auth/register", formData).then(response => {
+    axiosInstance.post("auth/register", formData).then(response => {
         const { data } = response;
         console.log("Data ", data)
     }).catch(error => {
