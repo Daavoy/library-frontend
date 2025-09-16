@@ -1,6 +1,6 @@
 import { FormEvent, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { login, LoginPayload } from "../auth/AuthUtil";
+import { AuthPayload, login, register } from "../auth/AuthUtil";
 
 
 interface ModalProps {
@@ -8,10 +8,11 @@ interface ModalProps {
     onClose: () => void;
     children?: ReactNode;
     title?: string;
+    isRegisterModal?: boolean;
 }
 
 
-export default function LoginModal({ isOpen, onClose, title }: ModalProps) {
+export default function RegisterLoginModal({ isOpen, onClose, title, isRegisterModal }: ModalProps) {
     const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (event.target === event.currentTarget) {
             onClose();
@@ -22,9 +23,12 @@ export default function LoginModal({ isOpen, onClose, title }: ModalProps) {
         const form = event.currentTarget;
         const formData = new FormData(form);
         //TODO FIX THIS STUPID SHIT
-        const dataObject = Object.fromEntries(formData) as unknown as LoginPayload;
-        const userData = await login(dataObject);
-        console.log("USERDATA: ", userData)
+        const dataObject = Object.fromEntries(formData) as unknown as AuthPayload;
+        if (isRegisterModal) {
+            await register(dataObject)
+        } else {
+            await login(dataObject);
+        }
         form.reset();
         onClose();
     }
@@ -60,7 +64,7 @@ export default function LoginModal({ isOpen, onClose, title }: ModalProps) {
                     <label htmlFor="password">Enter password:</label>
                     <input name="password" type="password" required />
                     <div className="modal-actions">
-                        <input type="submit"></input>
+                        <input type="submit" />
                         <button type="button" onClick={onClose}>
                             Cancel
                         </button>

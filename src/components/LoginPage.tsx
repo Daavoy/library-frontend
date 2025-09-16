@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LoginModal from "./LoginModal";
+import LoginModal from "./RegisterLoginModal";
 
 
 export default function LoginPage() {
@@ -10,9 +10,8 @@ export default function LoginPage() {
 
     return (
         <div className="login-container">
-            <button onClick={() => setOpenCreateModal(true)}>login</button>
-            {openLoginModal && <LoginModal isOpen={openLoginModal} onClose={handleCloseModal} />}
-
+            <button className="login-button" onClick={() => setOpenCreateModal(true)}>Login</button>
+            {openLoginModal && <LoginModal isOpen={openLoginModal} onClose={handleCloseModal} title="Login" />}
         </div>
     )
 }
