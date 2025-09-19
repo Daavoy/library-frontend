@@ -1,39 +1,35 @@
-import { useCallback, useMemo } from "react";
-import useFetch, { HTTPMethod } from "../hooks/useFetch";
-import useMutation from "../hooks/useMutation";
+import { AxiosError } from "axios";
+import { useCallback, useEffect, useState } from "react";
+import axiosInstance from "../axios";
 import { Book } from "../models/Book";
 import { BooksContext } from "./BooksContext";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL + "/books";
 export const BookProvider = ({ children }) => {
-    const fetchOpts = useMemo(() => ({ method: HTTPMethod.GET }), []);
-
-    const { data: books, isLoading, error, refetch } = useFetch<Book[]>(API_BASE, fetchOpts);
+    const [books, setBooks] = useState<Book[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const fetchBooks = useCallback(async () => {
-        await refetch();
-    }, [refetch]);
-
-    const { mutate: createBookMutate } = useMutation<null, FormData>(
-        API_BASE,
-        { method: HTTPMethod.POST }
-    );
-
-    const { mutate: updateBookMutate } = useMutation<null, Book>(
-        API_BASE,
-        { method: HTTPMethod.PUT }
-    );
-
-    const { mutate: deleteBookMutate } = useMutation<null, undefined>(
-        API_BASE,
-        { method: HTTPMethod.DELETE }
-    );
-
+        setIsLoading(true);
+        setError(null);
+        await axiosInstance.get<Book[]>(API_BASE).then(response => {
+            const { data } = response;
+            setBooks(data);
+        }).catch((error: AxiosError) => {
+            setError(error.message);
+        }).finally(() => {
+            setIsLoading(false);
+        })
+    }, [])
+    useEffect(() => {
+        fetchBooks();
+    }, [fetchBooks])
     const createBook = useCallback(
-        async (book: Omit<Book, "id"> & { thumbnail?: File }) => {
+        (book: Omit<Book, "id"> & { thumbnail?: File }) => {
             const formData = new FormData();
             Object.entries(book).forEach(([key, value]) => {
-                if (value !== undefined && value !== null && value !== '') {
+                if (value !== undefined && value !== null && value !== "") {
                     if (value instanceof File) {
                         formData.append(key, value);
                     } else {
@@ -41,26 +37,52 @@ export const BookProvider = ({ children }) => {
                     }
                 }
             });
-            await createBookMutate(formData);
-            await fetchBooks();
+            axiosInstance
+                .post(API_BASE, formData, { headers: { "Content-Type": "multipart/form-data" } })
+                .then(() => {
+                    fetchBooks();
+                })
+                .catch((error: AxiosError) => {
+                    setError(error.message);
+                });
         },
-        [createBookMutate, fetchBooks]
+        [fetchBooks]
     );
-
     const updateBook = useCallback(
-        async (book: Book) => {
-            await updateBookMutate(book, `/${book.id}`);
-            await fetchBooks();
+        (book: Book & { thumbnail?: File }) => {
+            const formData = new FormData();
+            Object.entries(book).forEach(([key, value]) => {
+                if (value !== undefined && value !== null && value !== "") {
+                    if (value instanceof File) {
+                        formData.append(key, value);
+                    } else {
+                        formData.append(key, String(value));
+                    }
+                }
+            });
+            axiosInstance
+                .put(`${API_BASE}/${book.id}`, formData, { headers: { "Content-Type": "multipart/form-data" } })
+                .then(() => {
+                    fetchBooks();
+                })
+                .catch((err: AxiosError) => {
+                    setError(err.message);
+                });
         },
-        [updateBookMutate, fetchBooks]
+        [fetchBooks]
     );
-
     const deleteBook = useCallback(
-        async (id: number) => {
-            await deleteBookMutate(undefined, `/${id}`);
-            await fetchBooks();
+        (id: number) => {
+            axiosInstance
+                .delete(`${API_BASE}/${id}`)
+                .then(() => {
+                    fetchBooks();
+                })
+                .catch((err: AxiosError) => {
+                    setError(err.message);
+                });
         },
-        [deleteBookMutate, fetchBooks]
+        [fetchBooks]
     );
 
     return (
@@ -79,3 +101,5 @@ export const BookProvider = ({ children }) => {
         </BooksContext.Provider>
     );
 };
+
+

@@ -18,10 +18,11 @@ export default function BookList(): JSX.Element {
         deleteBook,
     } = useBookContext();
 
+
     const handleCloseModal = () => setOpenCreateModal(false);
     const handleSubmit = async (book: Partial<Book>) => {
         try {
-            await createBook(book);
+            createBook(book);
             setOpenCreateModal(false);
         } catch (error) {
             console.error("Failed to create book:", error);
@@ -30,7 +31,7 @@ export default function BookList(): JSX.Element {
 
     const handleDelete = async (id: number) => {
         try {
-            await deleteBook(id);
+            deleteBook(id);
         } catch (error) {
             console.error("Failed to delete book:", error);
         }
@@ -41,12 +42,10 @@ export default function BookList(): JSX.Element {
     }
 
     return <>
-
         <Button onClick={() => setOpenCreateModal(true)}>Add Book</Button>
         {openCreateModal && <CreateBookModal isOpen={openCreateModal} onClose={handleCloseModal} handleSubmit={handleSubmit} />}
         <div className='book-list-wrapper'>
             {books?.map((book: Book) => (
-
                 <RenderBook book={book} handleDelete={handleDelete} isLoading={isLoading} />
             ))}
         </div>

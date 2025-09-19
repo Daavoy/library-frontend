@@ -2,13 +2,13 @@ import { createContext } from "react";
 import { Book } from "../models/Book";
 
 interface BookContextType {
-    books: Book[] | null;
+    books: Book[];
     isLoading: boolean;
     error: string | null;
-    fetchBooks: () => Promise<void>;
-    createBook: (book: Omit<Book, "id">) => Promise<void>;
-    updateBook: (book: Book) => Promise<void>;
-    deleteBook: (id: number) => Promise<void>;
+    fetchBooks: () => void;
+    createBook: (book: Omit<Book, "id"> & { thumbnail?: File }) => void;
+    updateBook: (book: Book & { thumbnail?: File }) => void;
+    deleteBook: (id: number) => void;
 }
 
 export const BooksContext = createContext<BookContextType | undefined>(undefined);

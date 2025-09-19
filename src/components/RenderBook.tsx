@@ -9,7 +9,7 @@ interface IProps {
 
 export default function RenderBook({ book, handleDelete, isLoading }: IProps) {
     const { title, author, description, isbn, thumbnail } = book;
-    console.log("BOOK: ", book);
+
     return <div className="book-wrapper">
         <img
             className="book-thumbnail-img"
@@ -21,6 +21,7 @@ export default function RenderBook({ book, handleDelete, isLoading }: IProps) {
             {author && <span>{author}</span>}
             {isbn && <span>{isbn}</span>}
         </div>
+        <button onClick={() => handleDelete(book.id)}>delete</button>
 
     </div>
 }
