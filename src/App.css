@@ -156,26 +156,60 @@
 .book-list-wrapper{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 100%;
+    align-items: stretch; /*makes each item the same height*/
     gap: 2em;
 }
 
 .book-thumbnail-img {
-   height: 30vw;
-   width: 30vw;
+    height: 15rem;
+    width: 15rem;
+    object-fit: cover;
+
 }
 .book-wrapper {
     display: flex;
     flex-direction: column;
+    width: 15rem;
+    text-wrap: balance;
+    overflow: hidden;
+    border-radius:7.5px;
+    border: 0.01px solid black;
+    
 }
 .book-wrapper h2{
     padding: 0;
     margin: 0;
 }
-.book-details {
-    display: flex;
-    flex-direction: column;
+.book-details { 
+    flex-grow: 1; /*allows the content to take available space, maintaining the equal size*/
+    padding-right:1rem;
+    padding-left:1rem;
+    padding-bottom: 1rem
 }
 
+.book-header {
+   max-width: 300px;
+}
+.book-header h2 {
+    padding-right:1rem;
+    padding-left:1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: wrap;
+}
+.book-footer{
+  border-top: 1px gray solid;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 1rem;
+}
+
+.book-footer button{
+    border-radius: 10px;
+    border-width: 0.5px
+}
 
 .login-container {
     display: flex;
