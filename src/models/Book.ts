@@ -5,4 +5,13 @@ export interface Book {
     description?: string;
     isbn?: string;
     thumbnail?: File;
+    categories?: Category[]
+}
+
+export interface Category {
+    id: number;
+    categoryName: string;
+    categoryCode?: string;
+    alternativeName?: string;
+
 }

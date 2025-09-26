@@ -223,11 +223,78 @@
 }
 
 
-
 .register-button, .login-button {
     width: 10vw;
     border-radius: 20px;
     border-width: 1px;
+}
+
+.truncate {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden
+}
+.mult-line-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.book-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+.book-page-header {
+    display: flex;
+    flex-direction: row;
+    column-gap: 18px;
+    height: 50vh;
+    width: 50vw;
+    min-height: 0;
+}
+.np {
+    padding:0;
+    margin:0;
+}
+
+.book-page-header-wrapper {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.book-page-img img{
+    max-height: 100%;
+    width: auto;
+}
+.book-page-details-container{
+    margin-top: 8px;
+    border-top:  1px solid gray;
+    width: 50vw;
+}
+.chip {
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    box-sizing: border-box;/* Include padding/border in height/width calculation */
+    padding-left: 16px;
+    padding-right: 16px;
+    height: 22px;
+    min-height: 22px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: fit-content;
+}
+.chip-labels{
+    display: flex;
+    flex-direction: row;
+    column-gap: 8px;
 }
 
 @media screen and (max-width: 600px) {

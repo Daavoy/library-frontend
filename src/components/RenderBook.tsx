@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Book } from "../models/Book";
 import RatingComponent from "./RatingComponent";
 
@@ -10,9 +11,13 @@ interface IProps {
 
 export default function RenderBook({ book, handleDelete, isLoading }: IProps) {
     const { title, author, description, isbn, thumbnail } = book;
+    const navigate = useNavigate();
 
+    const handleOnClick = () => {
+        navigate(`/books/${book.id}`)
+    }
     return <div className="book-wrapper">
-        <div className="book-header">
+        <div className="book-header" onClick={handleOnClick}>
             <img
                 className="book-thumbnail-img"
                 src={`data:image/jpeg;base64,${thumbnail}`}
