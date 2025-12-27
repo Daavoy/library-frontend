@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import axiosInstance from "../axios";
 
 export interface AuthPayload {
@@ -23,4 +24,17 @@ export const register = async (formData: AuthPayload) => {
     }).catch(error => {
         console.error("Error creating user", error)
     })
+}
+
+export const isTokenExpired = (accessToken: string) => {
+    if (!accessToken) return true;
+    try {
+        const decodedToken = jwtDecode(accessToken);
+        const currentTime = Date.now() / 1000;
+        return decodedToken.exp && decodedToken.exp < currentTime;
+    } catch (error) {
+        console.error('Error decoding token', error);
+        return true;
+
+    }
 }
