@@ -10,6 +10,7 @@ export default function Search() {
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
+        console.log("Value: ", value)
         setSearchString(value);
     }
 

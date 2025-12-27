@@ -4,6 +4,7 @@ import { useBookContext } from '../hooks/useBooksContext';
 import { Book } from '../models/Book';
 import { CreateBookModal } from './CreateBookModal';
 import RenderBook from './RenderBook';
+import Search from './Search';
 
 
 
@@ -42,7 +43,10 @@ export default function BookList(): JSX.Element {
     }
 
     return <>
-        <Button onClick={() => setOpenCreateModal(true)}>Add Book</Button>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginBottom: '8px' }}>
+            <Button onClick={() => setOpenCreateModal(true)}>Add Book</Button>
+            <Search />
+        </div>
         {openCreateModal && <CreateBookModal isOpen={openCreateModal} onClose={handleCloseModal} handleSubmit={handleSubmit} />}
         <div className='book-list-wrapper'>
             {books?.map((book: Book) => (
