@@ -176,7 +176,7 @@
     overflow: hidden;
     border-radius:7.5px;
     border: 0.01px solid black;
-    
+    cursor: pointer;
 }
 .book-wrapper h2{
     padding: 0;

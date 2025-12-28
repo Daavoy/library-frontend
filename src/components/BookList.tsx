@@ -1,5 +1,5 @@
 import { Button, Typography } from '@mui/material';
-import { JSX, useState } from 'react';
+import { JSX, useMemo, useState } from 'react';
 import { useBookContext } from '../hooks/useBooksContext';
 import { Book } from '../models/Book';
 import { CreateBookModal } from './CreateBookModal';
@@ -18,6 +18,7 @@ export default function BookList(): JSX.Element {
         updateBook,
         deleteBook,
     } = useBookContext();
+    const [keyword, setKeyword] = useState<string>("");
 
 
     const handleCloseModal = () => setOpenCreateModal(false);
@@ -37,6 +38,22 @@ export default function BookList(): JSX.Element {
             console.error("Failed to delete book:", error);
         }
     };
+    const updateSearch = (keyword: string) => {
+
+        setKeyword(keyword);
+    }
+
+    const filteredBooks = useMemo(() => {
+        const normalizedKeyword = keyword.trim().toLowerCase();
+        if (!normalizedKeyword) return books;
+
+        return books.filter(book =>
+            `${book.title ?? ""} ${book.description ?? ""}`
+                .toLowerCase()
+                .includes(normalizedKeyword)
+        );
+    }, [books, keyword]);
+
 
     if (error) {
         return <Typography>{error}</Typography>;
@@ -45,12 +62,12 @@ export default function BookList(): JSX.Element {
     return <>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginBottom: '8px' }}>
             <Button onClick={() => setOpenCreateModal(true)}>Add Book</Button>
-            <Search />
+            <Search keyword={keyword} onChange={updateSearch} />
         </div>
         {openCreateModal && <CreateBookModal isOpen={openCreateModal} onClose={handleCloseModal} handleSubmit={handleSubmit} />}
         <div className='book-list-wrapper'>
-            {books?.map((book: Book) => (
-                <RenderBook book={book} handleDelete={handleDelete} isLoading={isLoading} />
+            {filteredBooks?.map((book: Book) => (
+                <RenderBook book={book} handleDelete={handleDelete} isLoading={isLoading} key={book.id} />
             ))}
         </div>
     </ >
