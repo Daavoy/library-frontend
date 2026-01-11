@@ -20,7 +20,8 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
         return Object.fromEntries(
             fields.map((field) => [field.name, field.defaultValue || ""])
         );
-    }, [fields]); const [formData, setFormData] = useState<Record<string, unknown>>(initialFormState);
+    }, [fields]);
+    const [formData, setFormData] = useState<Record<string, unknown>>(initialFormState);
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     useEffect(() => {
@@ -71,6 +72,7 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [isOpen, onClose]);
+
     const onSave = async (event: React.FormEvent) => {
         event.preventDefault();
 
@@ -93,8 +95,6 @@ export default function BasicModal({ isOpen, onClose, children, title, fields, h
             onClose();
         }
     };
-
-
 
     if (!isOpen) {
         return null;

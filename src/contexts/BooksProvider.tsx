@@ -22,9 +22,11 @@ export const BookProvider = ({ children }) => {
             setIsLoading(false);
         })
     }, [])
+
     useEffect(() => {
         fetchBooks();
     }, [fetchBooks])
+
     const createBook = useCallback(
         (book: Omit<Book, "id"> & { thumbnail?: File }) => {
             const formData = new FormData();

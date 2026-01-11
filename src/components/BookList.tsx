@@ -38,10 +38,13 @@ export default function BookList(): JSX.Element {
             console.error("Failed to delete book:", error);
         }
     };
-    const updateSearch = (keyword: string) => {
 
+
+    const updateSearch = (keyword: string) => {
         setKeyword(keyword);
     }
+
+
 
     const filteredBooks = useMemo(() => {
         const normalizedKeyword = keyword.trim().toLowerCase();

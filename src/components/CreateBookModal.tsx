@@ -57,6 +57,6 @@ export function CreateBookModal({ isOpen, onClose, handleSubmit }: IProps) {
             title={"Add New Book"}
             fields={bookFields}
             handleSubmit={handleSubmit}
-        ></BasicModal>
+        />
     );
 }
